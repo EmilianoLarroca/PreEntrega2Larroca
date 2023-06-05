@@ -43,7 +43,7 @@ if (edad >= 18) {
                 break;
             case "6":
                 alertaSeis()
-                break;
+                return;
                 default:
                     alert("El número ingresado es incorrecto, vuelva a intentarlo")
         }
