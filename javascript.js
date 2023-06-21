@@ -151,6 +151,7 @@ function listaDeCompras() {
                 break
             case "4":
                 filtrado()
+                alert("Veras los productos filtrados en la consola")
                 break
             case "5":
                 nombrePrecioDos()
