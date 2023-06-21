@@ -12,7 +12,7 @@ let verduleria = [
 //---------------------------------------------------------------------------
 
 function comprarProductos() {
-    let numero = prompt("¿Que desea comprar?\n1-Manzanas\n2-Bananas\n3-Kiwi\n4-Zanahoria\n5-Lechuga\n6-Tomate\n7-Finalizar Compra")
+    let numero = prompt("¿Que desea comprar? Elija un número como opción:\n1-Manzanas\n2-Bananas\n3-Kiwi\n4-Zanahoria\n5-Lechuga\n6-Tomate\n7-Finalizar Compra")
     let sumaTotal = 0
     while (numero != "0") {
         switch (numero) {
@@ -52,7 +52,7 @@ function comprarProductos() {
             default:
                 alert("El número ingresado es incorrecto, vuelva a intentarlo")
         }
-        numero = prompt("¿Que desea comprar?\n1-Manzanas\n2-Bananas\n3-Kiwi\n4-Zanahoria\n5-Lechuga\n6-Tomate\n7-Salir del menu de compras")
+        numero = prompt("¿Que desea comprar? Elija un número como opción:\n1-Manzanas\n2-Bananas\n3-Kiwi\n4-Zanahoria\n5-Lechuga\n6-Tomate\n7-Finalizar Compra")
     }
 }
 
