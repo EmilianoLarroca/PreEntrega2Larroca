@@ -42,14 +42,22 @@
     </nav>
     <main>
         <h1 class="titulo1">BIENVENIDOS A "GOLPE DE SED"</h1>
-        <input id="search" class="filtrado" placeholder="Escriba el producto que desea buscar.." type="text">
-        <button class="botonBuscar">Buscar</button>
-        <button id="contenedorCarritoDeCompras">Ver Carrito</button>
-        <div id="contenedorCarritoVacio" class="oculto">
-            <div id="carrito"></div>
-            <button id="finalizarCompra">Finalizar compra</button>
+        <div class="prueba">
+            <input id="search" class="filtrado" onchange="filtrandoProductos()" placeholder="Escriba el producto que desea buscar.." type="text">
+            <button class="botonBuscar">Buscar</button>
+            <button id="contenedorCarritoDeCompras" class="esconder">Ver Carrito</button>
         </div>
-        <div id="contenerdorBotones"></div>
+        <div id="contenedorCarritoVacio" class="oculto">
+            <h2>Carro de Compras</h2>
+            <div id="carrito">
+            </div>
+            <div id="contenidoDelCarrito"></div>
+            <button id="finalizarCompra" onclick="finalizarCompra()">Finalizar compra</button>
+            <button id="vaciarCarrito" onclick="vaciarCarrito()">Borrar todo</button>
+        </div>
+        <div id="contenerdorBotones">
+            <p>Filtros de Productos:</p>
+        </div>
         <div id="productos"></div>
     </main>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

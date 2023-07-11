@@ -8,32 +8,50 @@
 ]
 
 let elementos = document.getElementById("productos")
+let carrito;
 
-
-let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
-let carrito = carritoJSON ? carritoJSON : []
+const checkStorage = () =>{
+    carrito = JSON.parse(localStorage.getItem("carrito") || "[]")
+}
 
 let contenerdorBotones = document.getElementById("contenedorBotones")
-let botonCompraFinalizada = document.getElementById("finalizarCompra")
-botonCompraFinalizada.addEventListener("click", () => finalizarCompra(carrito))
 
-
+checkStorage();
 filtroCreados(drugstore)
-primeraFuncion(drugstore, elementos, carrito)
+createCards(drugstore, elementos, carrito)
 actualizandoCarrito(carrito)
 
 
 // <-----FINALIZAR COMPRA----->
-function finalizarCompra(carrito) {
+function finalizarCompra() {
     let carroEnLaWeb =  document.getElementById("carrito")
-    carroEnLaWeb.innerHTML = ""
-    localStorage.removeItem("carrito")
-    carrito = []
-    actualizandoCarrito ([])
+    carroEnLaWeb.innerHTML = "";
+    carrito = [];
+    actualizandoCarrito (carrito)
+    localStorage.removeItem("carrito");
+    Swal.fire({
+        icon: 'success',
+        title: 'Compra realizada con exito',
+        text: 'Muchas gracias por elegirnos'
+    })
+}
+
+// <-----LIMPIAR TODO EL CARRITO DE COMPRA----->
+function vaciarCarrito() {
+    let carroEnLaWeb =  document.getElementById("carrito")
+    carroEnLaWeb.innerHTML = "";
+    carrito = [];
+    actualizandoCarrito (carrito)
+    localStorage.removeItem("carrito");
+    Swal.fire({
+        icon: 'info',
+        title: 'Has vaciado tu carrito',
+        text: 'Vuelve a empezar tu compra'
+    })
 }
 
 // <-----CREAR ELEMENTOS----->
-function primeraFuncion(drugstore) {
+function createCards(drugstore, elementos) {
     elementos.innerHTML = ""
     drugstore.forEach(producto => {
         let tarjeta = document.createElement("div")
@@ -43,22 +61,21 @@ function primeraFuncion(drugstore) {
         <img class="imagen" src="img/${producto.rutaImagen}">
         <h4 class="precioProducto">$${producto.precio}</h4>
         <h4 class="unidadesProducto">Unidades disponibles ${producto.unidades}</h4>
-        <button id=${producto.id}>Agregar al carrito</button>
+        <button class="botonCarrito" id=${producto.id}>Agregar al carrito</button>
         `
         elementos.appendChild(tarjeta)
         let botonAgregar = document.getElementById(producto.id)
-        botonAgregar.addEventListener("click", () => funcionAgregar(drugstore, producto.id))
+        botonAgregar.addEventListener("click", () => addProduct(drugstore, producto.id, carrito))
     })
 }
 
-function funcionAgregar (drugstore, id, carrito) {
-    console.log(id)
+function addProduct (drugstore, id, carrito) {
     let buscandoBebidas = drugstore.find(producto => producto.id === id)
     let posicionProductoEnCarrito = carrito.findIndex(producto =>producto.id === id)
 
     if (posicionProductoEnCarrito !== -1) {
         carrito[posicionProductoEnCarrito].unidades++
-        carrito[posicionProductoEnCarrito].subtotal = posicionProductoEnCarrito.unidades * carrito[posicionProductoEnCarrito].subtotal
+        carrito[posicionProductoEnCarrito].subtotal += carrito[posicionProductoEnCarrito].precio 
     } else {
         carrito.push({
             id: buscandoBebidas.id,
@@ -70,61 +87,67 @@ function funcionAgregar (drugstore, id, carrito) {
     }
     localStorage.setItem("carrito", JSON.stringify(carrito))
     actualizandoCarrito(carrito)
+    Toastify({
+        text: "Producto agregado al carrito",
+        duration: 3000
+        }).showToast();
 }
 
-    function actualizandoCarrito(carritoJSON) {
-        let carroEnLaWeb = document.getElementById("carrito")
-        carroEnLaWeb.innerHTML = `
-        <div id=encabezadoCarrito>
-        <p>Nombre</p>
-        <p>Precio Unitario</p>
-        <p>Unidades</p>
-        <p>Subtotal</p>
-        </div>
+function actualizandoCarrito(carritoJSON) {
+    console.log(carritoJSON)
+    let carroEnLaWeb = document.getElementById("carrito")
+    carroEnLaWeb.innerHTML = `
+    <div id=encabezadoCarrito>
+    <p>Nombre</p>
+    <p>Precio</p>
+    <p>Unidades</p>
+    <p>Subtotal</p>
+    </div>
+    `
+    carritoJSON.forEach(({ nombre, precio, unidades, subtotal } ) => {
+        let contenidoDelCarrito = document.createElement("div")
+        contenidoDelCarrito.classList.add("contenidoDelCarrito")
+        contenidoDelCarrito.innerHTML = `
+        <p>${nombre}</p>
+        <p>$${precio}</p>
+        <p>${unidades}</p>
+        <p>$${subtotal}</p>
         `
+        carroEnLaWeb.appendChild(contenidoDelCarrito)
+    })
+}
 
-        carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal } ) => {
-            let contenidoDelCarrito = document.createElement("div")
-            contenidoDelCarrito.classList.add("contenidoDelCarrito")
-            contenidoDelCarrito.innerHTML = `
-            <p>${nombre}</p>
-            <p>${precioUnitario}</p>
-            <p>${unidades}</p>
-            <p>${subtotal}</p>
-            `
-            carroEnLaWeb.appendChild(contenidoDelCarrito)
-        })
-    }
+let contenedorCarritoDeCompras = document.getElementById("contenedorCarritoDeCompras")
+contenedorCarritoDeCompras.addEventListener("click", mostrarOcultar)
 
-    let contenedorCarritoDeCompras = document.getElementById("contenedorCarritoDeCompras")
-    contenedorCarritoDeCompras.addEventListener("click", mostrarOcultar)
-
-    function mostrarOcultar() {
-        let contenedorPadre = document.getElementById("productos")
-        let carrito = document.getElementById("contenedorCarritoVacio")
-        contenedorPadre.classList.toggle("oculto")
-        carrito.classList.toggle("oculto")
-    }
+function mostrarOcultar() {
+    let contenedorPadre = document.getElementById("productos")
+    let carrito = document.getElementById("contenedorCarritoVacio")
+    contenedorPadre.classList.toggle("oculto")
+    carrito.classList.toggle("oculto")
+}
 
 
 
 
 // <------FILTRAR PRODUCTOS------> (FALTA AGREGAR EL TOLOWERCASE)
-let search = document.getElementById("search")
-search.addEventListener("input", filtrandoProductos)
+// let search = document.getElementById("search")
+// search.addEventListener("input", filtrandoProductos)
 
 function filtrandoProductos() {
-    let arrayFiltrado = drugstore.filter(producto => producto.nombre.includes(search.value) || producto.categoria.includes(search.value))
-    primeraFuncion(arrayFiltrado)
+    let search = document.getElementById("search").value
+    console.log(search)
+    let arrayFiltrado = drugstore.filter(producto => producto.nombre.toLowerCase().includes(search.toLowerCase()) || producto.categoria.toLowerCase().includes(search.toLowerCase()))
+    createCards(arrayFiltrado, elementos)
 }
 
 // <-------FILTRO BOTONES------->
 function filtrandoPorCateg(e) {
     if (e.target.id === "Todos") {
-        primeraFuncion(drugstore)
+        createCards(drugstore, elementos)
     } else {
         let productosFiltrados = drugstore.filter(producto => producto.categoria === e.target.id)
-        primeraFuncion(productosFiltrados)
+        createCards(productosFiltrados, elementos)
     }
 }
 
@@ -142,13 +165,10 @@ function filtroCreados(cadaElemento) {
         botton.id = filtros
         botton.innerText = filtros
         conjuntoFiltros.appendChild(botton)
-
         let buttonDos = document.getElementById(filtros)
         buttonDos.addEventListener("click", filtrandoPorCateg)
     })
 }
-
-
 
 
 
