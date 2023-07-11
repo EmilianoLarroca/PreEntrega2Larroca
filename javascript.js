@@ -1,10 +1,10 @@
 ﻿let drugstore = [
-    { id: 1, nombre: "Promo 1", categoria: "Fernet", unidades: 15, precio: 4250, rutaImagen: "../img/promo1.jpeg" },
-    { id: 2, nombre: "Promo 2", categoria: "Campari", unidades: 20, precio: 2950, rutaImagen: "../img/promo2.jpeg" },
-    { id: 3, nombre: "Promo 3", categoria: "Vodka", unidades: 10, precio: 3100, rutaImagen: "../img/promo3.jpeg" },
-    { id: 4, nombre: "Promo 4", categoria: "Cervezas", unidades: 12, precio: 1650, rutaImagen: "../img/promo4.jpeg" },
-    { id: 5, nombre: "Promo 5", categoria: "Cervezas", unidades: 5, precio: 1950, rutaImagen: "../img/promo5.jpeg" },
-    { id: 6, nombre: "Promo 6", categoria: "Vinos", unidades: 8, precio: 1470, rutaImagen: "../img/promo6.jpeg" }
+    { id: 1, nombre: "Promo 1", categoria: "Fernet", unidades: 15, precio: 4250, rutaImagen: "promo1.jpeg" },
+    { id: 2, nombre: "Promo 2", categoria: "Campari", unidades: 20, precio: 2950, rutaImagen: "promo2.jpeg" },
+    { id: 3, nombre: "Promo 3", categoria: "Vodka", unidades: 10, precio: 3100, rutaImagen: "promo3.jpeg" },
+    { id: 4, nombre: "Promo 4", categoria: "Cervezas", unidades: 12, precio: 1650, rutaImagen: "promo4.jpeg" },
+    { id: 5, nombre: "Promo 5", categoria: "Cervezas", unidades: 5, precio: 1950, rutaImagen: "promo5.jpeg" },
+    { id: 6, nombre: "Promo 6", categoria: "Vinos", unidades: 8, precio: 1470, rutaImagen: "promo6.jpeg" }
 ]
 
 let elementos = document.getElementById("productos")
@@ -58,7 +58,7 @@ function createCards(drugstore, elementos) {
         producto.className = "claseProducto"
         tarjeta.innerHTML = `
         <h4 class="tituloProducto">${producto.nombre}</h4>
-        <img class="imagen" src="${producto.rutaImagen}">
+        <img class="imagen" src="/img/${producto.rutaImagen}">
         <h4 class="precioProducto">$${producto.precio}</h4>
         <h4 class="unidadesProducto">Unidades disponibles ${producto.unidades}</h4>
         <button class="botonCarrito" id=${producto.id}>Agregar al carrito</button>
