@@ -58,7 +58,7 @@ function createCards(drugstore, elementos) {
         producto.className = "claseProducto"
         tarjeta.innerHTML = `
         <h4 class="tituloProducto">${producto.nombre}</h4>
-        <img class="imagen" src="../img/${producto.rutaImagen}">
+        <img class="imagen" src="img/${producto.rutaImagen}">
         <h4 class="precioProducto">$${producto.precio}</h4>
         <h4 class="unidadesProducto">Unidades disponibles ${producto.unidades}</h4>
         <button class="botonCarrito" id=${producto.id}>Agregar al carrito</button>
