@@ -21,7 +21,6 @@ filtroCreados(drugstore)
 createCards(drugstore, elementos, carrito)
 actualizandoCarrito(carrito)
 
-
 // <-----FINALIZAR COMPRA----->
 function finalizarCompra() {
     let carroEnLaWeb =  document.getElementById("carrito")
@@ -66,6 +65,7 @@ function createCards(drugstore, elementos) {
         elementos.appendChild(tarjeta)
         let botonAgregar = document.getElementById(producto.id)
         botonAgregar.addEventListener("click", () => addProduct(drugstore, producto.id, carrito))
+
     })
 }
 
@@ -93,6 +93,27 @@ function addProduct (drugstore, id, carrito) {
         }).showToast();
 }
 
+// <-----ELIMINAR ELEMENTOS----->
+// let eliminar = document.createElement("borrar")
+//     eliminar.innerText = "X";
+//     eliminar.classList = "borrar-productos";
+//     drugstoreContent.append(eliminar);
+
+//     eliminar.addEventListener("click", eliminarUnidad)
+
+
+// let eliminarUnidad = () => {
+//     let eliminarId = drugstore.find((elementos) => elementos.id);
+//     console.log(eliminarId)
+
+//     carrito = carrito.filter((drugstoreId) => {
+//         return drugstoreId !== eliminarId;
+//     }
+//     )
+// }
+
+
+
 function actualizandoCarrito(carritoJSON) {
     console.log(carritoJSON)
     let carroEnLaWeb = document.getElementById("carrito")
@@ -114,8 +135,30 @@ function actualizandoCarrito(carritoJSON) {
         <p>$${subtotal}</p>
         `
         carroEnLaWeb.appendChild(contenidoDelCarrito)
+        
+        // let eliminarProducto = document.createElement("span")
+        // eliminarProducto.className = "botonEliminar"
+        // eliminarProducto.innerText = "❌"
+        // carroEnLaWeb.appendChild(eliminarProducto)
+        // eliminarProducto.addEventListener("click", eliminarUnidad)
+
+        // const eliminarUnidad = () => {
+        //     const eliminarId = carrito.find((productoDos) => productoDos.id)
+        //     carrito = carrito.filter((carritoId) => {
+        //         return carritoId !== eliminarId
+        //     })
+        // } 
     })
+
+    const total = carrito.reduce((acc, el) => acc + el.subtotal, 0)
+        const totalProductos = document.createElement("div")
+        totalProductos.className = "contenidoDelCarrito2"
+        totalProductos.innerHTML =  `Total a Pagar: $${total}
+        `
+        carroEnLaWeb.appendChild(totalProductos)
+    
 }
+
 
 let contenedorCarritoDeCompras = document.getElementById("contenedorCarritoDeCompras")
 contenedorCarritoDeCompras.addEventListener("click", mostrarOcultar)
@@ -127,12 +170,7 @@ function mostrarOcultar() {
     carrito.classList.toggle("oculto")
 }
 
-
-
-
-// <------FILTRAR PRODUCTOS------> (FALTA AGREGAR EL TOLOWERCASE)
-// let search = document.getElementById("search")
-// search.addEventListener("input", filtrandoProductos)
+// <------FILTRAR PRODUCTOS------> 
 
 function filtrandoProductos() {
     let search = document.getElementById("search").value
@@ -169,6 +207,9 @@ function filtroCreados(cadaElemento) {
         buttonDos.addEventListener("click", filtrandoPorCateg)
     })
 }
+
+
+
 
 
 
