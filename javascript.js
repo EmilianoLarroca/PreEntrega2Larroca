@@ -1,25 +1,24 @@
-﻿let drugstore = [
-    { id: 1, nombre: "Promo 1", categoria: "Fernet", unidades: 15, precio: 4250, rutaImagen: "promo1.jpeg" },
-    { id: 2, nombre: "Promo 2", categoria: "Campari", unidades: 20, precio: 2950, rutaImagen: "Promo2.jpeg" },
-    { id: 3, nombre: "Promo 3", categoria: "Vodka", unidades: 10, precio: 3100, rutaImagen: "Promo3.jpeg" },
-    { id: 4, nombre: "Promo 4", categoria: "Cervezas", unidades: 12, precio: 1650, rutaImagen: "Promo4.jpeg" },
-    { id: 5, nombre: "Promo 5", categoria: "Cervezas", unidades: 5, precio: 1950, rutaImagen: "Promo5.jpeg" },
-    { id: 6, nombre: "Promo 6", categoria: "Vinos", unidades: 8, precio: 1470, rutaImagen: "Promo6.jpeg" }
-]
-
-let elementos = document.getElementById("productos")
-let carrito;
+﻿    let apiProductos= './base.json'
+    let drugstore = []
+    let elementos = document.getElementById("productos")
+    let carrito;
+    let contenerdorBotones = document.getElementById("contenedorBotones")
+    
+    fetch(apiProductos)
+        .then(response => response.json())
+        .then(data => {
+            drugstore = data.drugstore
+            filtroCreados(drugstore)
+            createCards(drugstore, elementos, carrito)
+})
 
 const checkStorage = () =>{
     carrito = JSON.parse(localStorage.getItem("carrito") || "[]")
 }
 
-let contenerdorBotones = document.getElementById("contenedorBotones")
-
 checkStorage();
-filtroCreados(drugstore)
-createCards(drugstore, elementos, carrito)
 actualizandoCarrito(carrito)
+
 
 // <-----FINALIZAR COMPRA----->
 function finalizarCompra() {
@@ -71,7 +70,7 @@ function createCards(drugstore, elementos) {
 
 function addProduct (drugstore, id, carrito) {
     let buscandoBebidas = drugstore.find(producto => producto.id === id)
-    let posicionProductoEnCarrito = carrito.findIndex(producto =>producto.id === id)
+    let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === id)
 
     if (posicionProductoEnCarrito !== -1) {
         carrito[posicionProductoEnCarrito].unidades++
@@ -120,7 +119,7 @@ function actualizandoCarrito(carritoJSON) {
     carroEnLaWeb.innerHTML = `
     <div id=encabezadoCarrito>
     <p>Nombre</p>
-    <p>Precio</p>
+    <p>Precio Unitario</p>
     <p>Unidades</p>
     <p>Subtotal</p>
     </div>
@@ -207,6 +206,7 @@ function filtroCreados(cadaElemento) {
         buttonDos.addEventListener("click", filtrandoPorCateg)
     })
 }
+
 
 
 
