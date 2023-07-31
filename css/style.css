@@ -34,14 +34,18 @@ main {
 #productos {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .imagen {
     width: 300px;
-    height: 300px;
+    height: 350px;
     margin: 20px;
     border-radius: 10px;
+    box-shadow: 10px 15px 10px 10px rgb(8, 12, 63);
 }
 
 .claseProducto {
@@ -132,9 +136,17 @@ main {
     font-size: 18px;
     background-color: #00e1ff9c;
     font-weight: 1000;
-    border-radius: 10px;
+    border-radius: 0px;
     color: rgba(0, 0, 0, 0.671);
     margin-bottom: 20px;
+}
+
+.botonCarrito:hover {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    box-shadow: inset 200px 0 0 0 #f3a806dc;
+    transition: ease-out .6s;
+    outline: none;
 }
 
 .prueba{
@@ -242,3 +254,7 @@ main {
 .botonNavbar {
     background: #fa9241;
 }
+
+
+
+
